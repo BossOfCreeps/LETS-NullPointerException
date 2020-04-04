@@ -5,6 +5,7 @@ from .models import Event, Comment, UserInfo, Invite
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+delta_ungi = 0.2
 
 def index(request):
     return render(request, 'index.html', {})
@@ -49,8 +50,13 @@ def invite(request, event_id):
 
 
 def profile(request):
+    global delta_ungi
     user = request.user.username
     test = -1
+    try:
+        user = request.GET['user']
+    except:
+        pass
     try:
         test = UserInfo.objects.get(name=user).test
     except:
@@ -58,13 +64,15 @@ def profile(request):
     invites = Invite.objects.filter(name2=user)
     my_invites = Invite.objects.filter(name1=user, submit=2)
     test_users = UserInfo.objects.filter()
+    all_events = Event.objects.filter()
     users_list = list()
     for tu in test_users:
-        if test + 0.1 > tu.test > test - 0.1 and tu.name != user:
+        if test + delta_ungi > tu.test > test - delta_ungi and tu.name != user:
             users_list.append(tu.name)
 
     print(users_list)
-    return render(request, 'profile.html', {"u": user, "test": test, "invites": invites, "my_invites": my_invites, "test_users": users_list})
+    return render(request, 'profile.html', {"u": user, "test": test, "invites": invites, "my_invites": my_invites,
+                                            "test_users": users_list, "events": all_events})
 
 
 def reg(request):
@@ -107,4 +115,13 @@ def submit_invite(request):
     event = request.GET['event']
     r = int(request.GET['r'])
     Invite.objects.filter(name1=user, name2=request.user.username, event=event).update(submit=r)
+    return HttpResponseRedirect(reverse('profile'))
+
+
+def call(request):
+    name1 = request.user.username
+    name2 = request.POST['user_l']
+    event_name = request.POST['event_l']
+    event_id = Event.objects.get(name=event_name).id
+    Invite(name1=name1, name2=name2, event=event_id, e_name=event_name, submit=False).save()
     return HttpResponseRedirect(reverse('profile'))

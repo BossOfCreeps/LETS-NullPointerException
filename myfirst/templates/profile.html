@@ -19,12 +19,12 @@
     {% endif %}
 </ul>
 
+<h1>{{u}}</h1>
 {% if user.is_authenticated  %}
     {% if  u == user.get_username or u == " "%}
-        <h1>{{user.get_username}}</h1>
         <hr>
         <h2>Ваши мероприятия:</h2>
-       {% for i in my_invites %}
+        {% for i in my_invites %}
                 <b>{{i.name2}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
         {% endfor %}
 
@@ -42,9 +42,17 @@
             <h2>Результаты теста Юнга - {{test}}</h2>
             {% if test_users %}
                 Схожие пользователи:<br>
-                {% for tu in test_users %}
-                    {{tu}}<br>
-                {% endfor %}
+                <form action="{% url 'call' %}" method="post">
+                    {% csrf_token %}
+                    {% for tu in test_users %}
+                        <input type="radio" name="user_l" value="{{tu}}" required>{{tu}}<br>
+                    {% endfor %}
+                    <br>
+                    {% for e in events %}
+                        <input type="radio" name="event_l" value="{{e.name}}" required>{{e.name}}<br>
+                    {% endfor %}
+                    <button type="submit">Отправить запрос</button>
+                </form>
             {% endif %}
         {% else %}
             <hr>
