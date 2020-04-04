@@ -23,16 +23,19 @@
     {% if  u == user.get_username or u == " "%}
         <h1>{{user.get_username}}</h1>
         <hr>
-        <h2>Ваши приглашения на мероприятия:</h2>
+        <h2>Ваши мероприятия:</h2>
+       {% for i in my_invites %}
+                <b>{{i.name2}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
+        {% endfor %}
+
         {% for i in invites %}
             {% if i.submit == 0 %}
                 {{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a>
                 <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=2">[+]</a>
-                <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=1">[-]</a>
+                <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=1">[-]</a><br>
             {% elif i.submit == 2 %}
-                <b>{{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]
+                <b>{{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
             {% endif %}
-            <p>
         {% endfor %}
         <hr>
         {% if test != -1 %}

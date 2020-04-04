@@ -56,12 +56,23 @@ def profile(request):
     except:
         pass
     invites = Invite.objects.filter(name2=user)
-    print(invites)
-    return render(request, 'profile.html', {"u": user, "test": test, "invites": invites})
+    my_invites = Invite.objects.filter(name1=user, submit=2)
+    return render(request, 'profile.html', {"u": user, "test": test, "invites": invites, "my_invites": my_invites})
 
 
 def reg(request):
-    pass
+    try:
+        login = request.POST["login"]
+        password = request.POST["pass"]
+        print(User.objects.get(username=login))
+        try:
+            User.objects.get(username=login)
+            return render(request, 'reg.html', {"ok": False})
+        except:
+            User.objects.create_user(login, " ", password).save()
+            return HttpResponseRedirect(reverse('index'))
+    except:
+        return render(request, 'reg.html', {"ok": True})
 
 
 def test(request):
@@ -69,10 +80,12 @@ def test(request):
     result = 0
 
     for i in range(1, 21):
-        if (i in extra_list) and (request.POST['id_' + str(i)]):
+        if (i in extra_list) and int(request.POST['id_' + str(i)]):
             result += 5
-        if not (i in extra_list) and not (request.POST['id_' + str(i)]):
+            print(i,int(request.POST['id_' + str(i)]),1)
+        if not (i in extra_list) and not int(request.POST['id_' + str(i)]):
             result += 5
+            print(i,int(request.POST['id_' + str(i)]),2)
 
     result = result / 100
     UserInfo(name=request.user.username, test=result).save()
