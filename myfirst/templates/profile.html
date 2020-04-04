@@ -25,10 +25,18 @@
         <hr>
         <h2>Ваши приглашения на мероприятия:</h2>
         {% for i in invites %}
-            <p>{{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a> <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a><p>
+            {% if i.submit == 0 %}
+                {{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a>
+                <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=2">[+]</a>
+                <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=1">[-]</a>
+            {% elif i.submit == 2 %}
+                <b>{{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]
+            {% endif %}
+            <p>
         {% endfor %}
+        <hr>
         {% if test != -1 %}
-            <p>Результатты теста Юнга - {{test}}</p>
+            <h2>Результатты теста Юнга - {{test}}</h2>
         {% else %}
             <hr>
             <h2>Пройдите тест, чтобы выбрать напарника на мероприятие (Опросник Юнга)</h2>

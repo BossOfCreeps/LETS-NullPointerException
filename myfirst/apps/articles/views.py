@@ -80,4 +80,8 @@ def test(request):
 
 
 def submit_invite(request):
-    
+    user = request.GET['user']
+    event = request.GET['event']
+    r = int(request.GET['r'])
+    Invite.objects.filter(name1=user, name2=request.user.username, event=event).update(submit=r)
+    return HttpResponseRedirect(reverse('profile'))

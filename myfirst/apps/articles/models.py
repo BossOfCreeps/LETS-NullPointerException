@@ -26,4 +26,4 @@ class Invite(models.Model):
     e_name = models.CharField(default="", max_length=500)
     name1 = models.CharField(max_length=500)
     name2 = models.CharField(max_length=500)
-    submit = models.BooleanField()
+    submit = models.IntegerField()
