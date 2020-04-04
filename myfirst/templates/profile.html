@@ -11,7 +11,7 @@
     <li><a href="{% url 'index' %}">Главная страница</a></li>
     <li><a href="{% url 'events' %}">События</a></li>
     {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}">Профиль</a></li>
+        <li><a href="{% url 'profile'%}?user={{user.get_username}}">Профиль</a></li>
         <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
     {% else %}
         <li><a href="{% url 'login'%}">Войти</a></li>
@@ -23,95 +23,44 @@
     {% if  u == user.get_username or u == " "%}
         <h1>{{user.get_username}}</h1>
         <hr>
-        <h2>Пройдите тест, чтобы выбрать напарника на мероприятие (Опросник Юнга)</h2>
-        <form action="{% url 'test'  %}?user={{user.get_username}}" method="post">
-            {% csrf_token %}
-            <p>
-                <b>Что вы предпочитаете?</b><br>
-                <input type="radio" name="id_1" value="0" required>немного близких друзей<br>
-                <input type="radio" name="id_1" value="1" required>большую товарищескую компанию<br><br>
-
-                <b>Какие книги вы предпочитаете читать?</b><br>
-                <input type="radio" name="id_2" value="0" required>с занимательным сюжетом<br>
-                <input type="radio" name="id_2" value="1" required>с описанием переживаний героев<br><br>
-
-                <b>Что вы скорее можете допустить в разговоре?</b><br>
-                <input type="radio" name="id_3" value="0" required>опоздание<br>
-                <input type="radio" name="id_3" value="1" required>ошибки<br><br>
-
-                <b>Если вы совершаете дурной поступок, то:</b><br>
-                <input type="radio" name="id_4" value="0" required>остро переживаете<br>
-                <input type="radio" name="id_4" value="1" required>острых переживаний нет<br><br>
-
-                <b>Как вы сходитесь с людьми?</b><br>
-                <input type="radio" name="id_5" value="0" required>быстро, легко<br>
-                <input type="radio" name="id_5" value="1" required>медленно, осторожно<br><br>
-
-                <b>Считаете ли вы себя обидчивым?</b><br>
-                <input type="radio" name="id_6" value="0" required>да<br>
-                <input type="radio" name="id_6" value="1" required>нет<br><br>
-
-                <b>Склонны ли вы хохотать, смеяться от души?</b><br>
-                <input type="radio" name="id_7" value="0" required>да<br>
-                <input type="radio" name="id_7" value="1" required>нет<br><br>
-
-                <b>Считаете ли вы себя?</b><br>
-                <input type="radio" name="id_8" value="0" required>молчаливым<br>
-                <input type="radio" name="id_8" value="1" required>разговорчивым<br><br>
-
-                <b>Откровенны ли вы или скрытны?</b><br>
-                <input type="radio" name="id_9" value="0" required>откровенен<br>
-                <input type="radio" name="id_9" value="1" required>скрытен<br><br>
-
-                <b>Любите ли вы заниматься анализом своих переживаний?</b><br>
-                <input type="radio" name="id_10" value="0" required>да<br>
-                <input type="radio" name="id_10" value="1" required>нет<br><br>
-
-                <b>Находясь в обществе, вы предпочитаете:</b><br>
-                <input type="radio" name="id_11" value="0" required>говорить<br>
-                <input type="radio" name="id_11" value="1" required>слушать<br><br>
-
-                <b>Часто ли вы переживаете недовольство собой?</b><br>
-                <input type="radio" name="id_12" value="0" required>да<br>
-                <input type="radio" name="id_12" value="1" required>нет<br><br>
-
-                <b>Любите ли вы что-нибудь организовывать?</b><br>
-                <input type="radio" name="id_13" value="0" required>да<br>
-                <input type="radio" name="id_13" value="1" required>нет<br><br>
-
-                <b>Хотелось бы вам вести интимный дневник?</b><br>
-                <input type="radio" name="id_14" value="0" required>да<br>
-                <input type="radio" name="id_14" value="1" required>нет<br><br>
-
-                <b>Быстро ли вы переходите от решения к исполнению?</b><br>
-                <input type="radio" name="id_15" value="0" required>да<br>
-                <input type="radio" name="id_15" value="1" required>нет<br><br>
-
-                <b>Легко ли вы меняете ваше настроение?</b><br>
-                <input type="radio" name="id_16" value="0" required>да<br>
-                <input type="radio" name="id_16" value="1" required>нет<br><br>
-
-                <b>Любите ли вы убеждать других, навязывать свои взгляды?</b><br>
-                <input type="radio" name="id_17" value="0" required>да<br>
-                <input type="radio" name="id_17" value="1" required>нет<br><br>
-
-                <b>Ваши движения:</b><br>
-                <input type="radio" name="id_18" value="0" required>быстры<br>
-                <input type="radio" name="id_18" value="1" required>замедленны<br><br>
-
-                <b>Вы сильно беспокоитесь о возможных неприятностях:</b><br>
-                <input type="radio" name="id_19" value="0" required>да<br>
-                <input type="radio" name="id_19" value="1" required>нет<br><br>
-
-                <b>В затруднительных случаях:</b><br>
-                <input type="radio" name="id_20" value="0" required>спешите обратиться за помощью к другим<br>
-                <input type="radio" name="id_20" value="1" required>не любите обращаться<br><br>
-
-            </p>
-            <button type="submit">Отправить результатты теста</button>
-        </form>
+        <h2>Ваши приглашения на мероприятия:</h2>
+        {% for i in invites %}
+            <p>{{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a> <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a><p>
+        {% endfor %}
+        {% if test != -1 %}
+            <p>Результатты теста Юнга - {{test}}</p>
+        {% else %}
+            <hr>
+            <h2>Пройдите тест, чтобы выбрать напарника на мероприятие (Опросник Юнга)</h2>
+            <form action="{% url 'test' %}" method="post">
+                {% csrf_token %}
+                <p>
+                    <b>Что вы предпочитаете?</b><br> <input type="radio" name="id_1" value="0" required>немного близких друзей<br> <input type="radio" name="id_1" value="1" required>большую товарищескую компанию<br><br>
+                    <b>Какие книги вы предпочитаете читать?</b><br><input type="radio" name="id_2" value="0" required>с занимательным сюжетом<br><input type="radio" name="id_2" value="1" required>с описанием переживаний героев<br><br>
+                    <b>Что вы скорее можете допустить в разговоре?</b><br><input type="radio" name="id_3" value="0" required>опоздание<br><input type="radio" name="id_3" value="1" required>ошибки<br><br>
+                    <b>Если вы совершаете дурной поступок, то:</b><br><input type="radio" name="id_4" value="0" required>остро переживаете<br><input type="radio" name="id_4" value="1" required>острых переживаний нет<br><br>
+                    <b>Как вы сходитесь с людьми?</b><br><input type="radio" name="id_5" value="0" required>быстро, легко<br><input type="radio" name="id_5" value="1" required>медленно, осторожно<br><br>
+                    <b>Считаете ли вы себя обидчивым?</b><br><input type="radio" name="id_6" value="0" required>да<br><input type="radio" name="id_6" value="1" required>нет<br><br>
+                    <b>Склонны ли вы хохотать, смеяться от души?</b><br><input type="radio" name="id_7" value="0" required>да<br><input type="radio" name="id_7" value="1" required>нет<br><br>
+                    <b>Считаете ли вы себя?</b><br><input type="radio" name="id_8" value="0" required>молчаливым<br><input type="radio" name="id_8" value="1" required>разговорчивым<br><br>
+                    <b>Откровенны ли вы или скрытны?</b><br><input type="radio" name="id_9" value="0" required>откровенен<br><input type="radio" name="id_9" value="1" required>скрытен<br><br>
+                    <b>Любите ли вы заниматься анализом своих переживаний?</b><br><input type="radio" name="id_10" value="0" required>да<br><input type="radio" name="id_10" value="1" required>нет<br><br>
+                    <b>Находясь в обществе, вы предпочитаете:</b><br><input type="radio" name="id_11" value="0" required>говорить<br><input type="radio" name="id_11" value="1" required>слушать<br><br>
+                    <b>Часто ли вы переживаете недовольство собой?</b><br>                    <input type="radio" name="id_12" value="0" required>да<br>                    <input type="radio" name="id_12" value="1" required>нет<br><br>
+                    <b>Любите ли вы что-нибудь организовывать?</b><br>                    <input type="radio" name="id_13" value="0" required>да<br>                    <input type="radio" name="id_13" value="1" required>нет<br><br>
+                    <b>Хотелось бы вам вести интимный дневник?</b><br>                    <input type="radio" name="id_14" value="0" required>да<br>                    <input type="radio" name="id_14" value="1" required>нет<br><br>
+                    <b>Быстро ли вы переходите от решения к исполнению?</b><br>                    <input type="radio" name="id_15" value="0" required>да<br>                    <input type="radio" name="id_15" value="1" required>нет<br><br>
+                    <b>Легко ли вы меняете ваше настроение?</b><br>                    <input type="radio" name="id_16" value="0" required>да<br>                    <input type="radio" name="id_16" value="1" required>нет<br><br>
+                    <b>Любите ли вы убеждать других, навязывать свои взгляды?</b><br>                    <input type="radio" name="id_17" value="0" required>да<br>                    <input type="radio" name="id_17" value="1" required>нет<br><br>
+                    <b>Ваши движения:</b><br>                    <input type="radio" name="id_18" value="0" required>быстры<br>                    <input type="radio" name="id_18" value="1" required>замедленны<br><br>
+                    <b>Вы сильно беспокоитесь о возможных неприятностях:</b><br>                    <input type="radio" name="id_19" value="0" required>да<br>                    <input type="radio" name="id_19" value="1" required>нет<br><br>
+                    <b>В затруднительных случаях:</b><br>                    <input type="radio" name="id_20" value="0" required>спешите обратиться за помощью к другим<br>                    <input type="radio" name="id_20" value="1" required>не любите обращаться<br><br>
+                </p>
+                <button type="submit">Отправить результатты теста</button>
+            </form>
+        {% endif %}
     {% else %}
-        Вы на странице другого пользователя
+        <p></p>
     {% endif %}
 {% else %}
     <p>Да не вторизованы. <a href="{% url 'login'%}?next={{request.path}}">Войти на сайт</a>.</p>
