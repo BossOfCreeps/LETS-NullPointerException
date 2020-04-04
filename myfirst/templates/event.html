@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static  %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{event.name}}</title>
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+<body>
+<ul>
+    <li><a href="/">Главная страница</a></li>
+    <li><a href="/events/">События</a></li>
+    <li><a href="/accounts/login/">Профиль</a></li>
+    <li><a href="#">Выйти</a></li>
+</ul>
+
+<h1>
+    {{event.name}}
+</h1>
+<i>Пройдёт: {{event.time}}</i>
+<img src="{{event.picture}}">
+<p>{{event.text}}</p>
+<br>
+</body>
+</html>
