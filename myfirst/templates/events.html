@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+{% load static  %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>События</title>
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
 </head>
 <body>
 <ul>
@@ -15,10 +17,14 @@
     На данной старнице вы можете посмотреть список ближайших событий.
 </h1>
 
-<h2>Событие</h2>
-<i>Время</i><br>
-<img src="https://hh.ru/employer-logo/3184173.png">
-<p>Описание</p>
+{% for event in events %}
+    <h2><a href="/events/1">{{event.name}}</a></h2>
+    <h3>{{event.time}}</h3>
+    <br>
+    <img src="{{event.picture}}">
+    <p>{{event.text}}</p>
+    <br>
+{% endfor %}
 
 
 </body>
