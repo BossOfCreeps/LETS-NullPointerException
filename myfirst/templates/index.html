@@ -12,7 +12,7 @@
     <li><a href="{% url 'index' %}">Главная страница</a></li>
     <li><a href="{% url 'events' %}">События</a></li>
     {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}">Профиль</a></li>
+        <li><a href="{% url 'profile' %}?user={{user.get_username}}">Профиль</a></li>
         <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
     {% else %}
         <li><a href="{% url 'login'%}">Войти</a></li>

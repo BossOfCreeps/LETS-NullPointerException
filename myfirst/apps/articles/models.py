@@ -14,3 +14,8 @@ class Comment(models.Model):
     event = models.ForeignKey(Event, on_delete = models.CASCADE)
     author = models.CharField(max_length=500)
     text = models.TextField()
+
+
+class UserInfo(models.Model):
+    name = models.CharField(max_length=500)
+    test = models.FloatField()

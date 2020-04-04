@@ -42,7 +42,7 @@
         <button type="submit">Оставить комментарий</button>
     </form>
 {% else %}
-    <p>Для Введения комментариев необзодимо <a href="{% url 'login'%}?next={{request.path}}">войти</a> на сайт.</p>
+    <p>Для Введения комментариев необходимо <a href="{% url 'login'%}?next={{request.path}}">войти</a> на сайт.</p>
 {% endif %}
 
 </body>

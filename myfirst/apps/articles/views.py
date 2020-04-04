@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
-from .models import Event, Comment
+from .models import Event, Comment, UserInfo
 from django.urls import reverse
 
 
@@ -36,8 +36,31 @@ def add_comment(request, event_id):
 
 
 def profile(request):
-    pass
+    user = " "
+    try:
+        user = request.GET['user']
+    except:
+        pass
+    return render(request, 'profile.html', {"u": user})
 
 
 def reg(request):
     pass
+
+
+def test(request):
+
+    extra_list = {1,3,4,6,8,10,12,14,19}
+    result=0
+
+    for i in range(1,21):
+        if (i in extra_list) and (request.POST['id_'+str(i)]):
+            result += 5
+        if not (i in extra_list) and not (request.POST['id_'+str(i)]):
+            result += 5
+
+    result = result / 100
+    u = UserInfo(name=request.GET['user'], test=result)
+    u.save()
+    return HttpResponseRedirect(reverse('profile'))
+
