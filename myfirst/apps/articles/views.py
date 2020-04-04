@@ -68,10 +68,13 @@ def profile(request):
 
 
 def reg(request):
+    print(1)
+
     try:
         login = request.POST["login"]
+        print(2)
         password = request.POST["pass"]
-        print(User.objects.get(username=login))
+        print(3)
         try:
             User.objects.get(username=login)
             return render(request, 'reg.html', {"ok": False})
