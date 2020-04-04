@@ -8,18 +8,37 @@
 </head>
 <body>
 <ul>
-    <li><a href="/">Главная страница</a></li>
-    <li><a href="/events/">События</a></li>
+    <li><a href="{% url 'index' %}">Главная страница</a></li>
+    <li><a href="{% url 'events' %}">События</a></li>
     <li><a href="/accounts/login/">Профиль</a></li>
-    <li><a href="#">Выйти</a></li>
+    <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
 </ul>
 
 <h1>
     {{event.name}}
 </h1>
-<i>Пройдёт: {{event.time}}</i>
+<h2>Пройдёт: {{event.time}}</h2>
 <img src="{{event.picture}}">
 <p>{{event.text}}</p>
 <br>
+<hr>
+<h2>Коммантарии:</h2>
+
+{% for comment in comments %}
+    <strong>{{comment.author}}</strong>
+    <p>{{comment.text}}</p><br>
+{% endfor %}
+
+{% if user.is_authenticated %}
+    <form action="{% url 'add_comment' event.id  %}" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ user.get_username }}" name="name" readonly><br>
+        <textarea name="text"  rows="10" placeholder="Текст комментария" required></textarea><br>
+        <button type="submit">Оставить комментарий</button>
+    </form>
+{% else %}
+    <p>Для Введения комментариев необзодимо <a href="{% url 'login'%}?next={{request.path}}">войти</a> на сайт.</p>
+{% endif %}
+
 </body>
 </html>

@@ -18,8 +18,8 @@
 </h1>
 
 {% for event in events %}
-    <h2><a href="/events/{{event.id}}">{{event.name}}</a></h2>
-    <h3>{{event.time}}</h3>
+    <h3><a href="/events/{{event.id}}">{{event.name}}</a></h3>
+    <h4>{{event.time}}</h4>
     <img src="{{event.picture}}">
     <p>{{event.text}}</p>
     <br>
