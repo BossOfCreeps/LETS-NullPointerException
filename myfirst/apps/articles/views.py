@@ -32,4 +32,12 @@ def add_comment(request, event_id):
     print(request.POST['name'])
 
     e.comment_set.create(author=request.POST['name'], text=request.POST['text'])
-    return HttpResponseRedirect(reverse('event', args = (e.id,)))
+    return HttpResponseRedirect(reverse('event', args=(e.id,)))
+
+
+def profile(request):
+    pass
+
+
+def reg(request):
+    pass

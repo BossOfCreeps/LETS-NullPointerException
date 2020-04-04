@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <title>События</title>
     <link rel="stylesheet" href="{% static "css/style.css" %}">
+
 </head>
 <body>
 <ul>
-    <li>Главная страница</li>
-    <li>События</li>
-    <li>Профиль</li>
-    <li>Выйти</li>
+    <li><a href="{% url 'index' %}">Главная страница</a></li>
+    <li><a href="{% url 'events' %}">События</a></li>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'profile' %}">Профиль</a></li>
+        <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
+    {% else %}
+        <li><a href="{% url 'login'%}">Войти</a></li>
+        <li><a href="{% url 'reg'%}">Регистрация</a></li>
+    {% endif %}
 </ul>
 <h1>
     На данной старнице вы можете посмотреть список ближайших событий.

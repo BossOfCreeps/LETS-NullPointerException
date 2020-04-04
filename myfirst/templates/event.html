@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <title>{{event.name}}</title>
     <link rel="stylesheet" href="{% static "css/style.css" %}">
+
 </head>
 <body>
 <ul>
     <li><a href="{% url 'index' %}">Главная страница</a></li>
     <li><a href="{% url 'events' %}">События</a></li>
-    <li><a href="/accounts/login/">Профиль</a></li>
-    <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'profile' %}">Профиль</a></li>
+        <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
+    {% else %}
+        <li><a href="{% url 'login'%}">Войти</a></li>
+        <li><a href="{% url 'reg'%}">Регистрация</a></li>
+    {% endif %}
 </ul>
 
 <h1>
@@ -20,7 +26,6 @@
 <h2>Пройдёт: {{event.time}}</h2>
 <img src="{{event.picture}}">
 <p>{{event.text}}</p>
-<br>
 <hr>
 <h2>Коммантарии:</h2>
 
