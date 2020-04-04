@@ -57,7 +57,14 @@ def profile(request):
         pass
     invites = Invite.objects.filter(name2=user)
     my_invites = Invite.objects.filter(name1=user, submit=2)
-    return render(request, 'profile.html', {"u": user, "test": test, "invites": invites, "my_invites": my_invites})
+    test_users = UserInfo.objects.filter()
+    users_list = list()
+    for tu in test_users:
+        if test + 0.1 > tu.test > test - 0.1 and tu.name != user:
+            users_list.append(tu.name)
+
+    print(users_list)
+    return render(request, 'profile.html', {"u": user, "test": test, "invites": invites, "my_invites": my_invites, "test_users": users_list})
 
 
 def reg(request):
