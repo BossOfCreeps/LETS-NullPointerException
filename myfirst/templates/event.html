@@ -12,7 +12,7 @@
     <li><a href="{% url 'index' %}">Главная страница</a></li>
     <li><a href="{% url 'events' %}">События</a></li>
     {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}?user={{user.get_username}}">Профиль</a></li>
+        <li><a href="{% url 'profile' %}">Профиль</a></li>
         <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
     {% else %}
         <li><a href="{% url 'login'%}">Войти</a></li>
@@ -22,6 +22,9 @@
 
 <h1>
     {{event.name}}
+    {% if user.is_staff %}
+        [<a href="{% url 'remove_event'%}?event={{event.id}}">Удалить событие</a>]
+    {% endif %}
 </h1>
 <h2>Пройдёт: {{event.time}}</h2>
 <img src="{{event.picture}}">
@@ -35,7 +38,11 @@
         {%  if comment.author != user.get_username and not comment.author in invites %}
             <a href="{% url 'invite' event.id  %}?user={{comment.author}}">[пригласить]</a>
         {% endif %}
-    <p>{{comment.text}}</p><br>
+    <p>{{comment.text}}</p>
+    {% if comment.author == user.get_username or user.is_staff %}
+        [<a href="{% url 'event' event.id  %}?id={{comment.id}}">удалить кммоентарий</a>]<br>
+    {% endif %}
+    <br><br>
 {% endfor %}
 
 {% if user.is_authenticated %}

@@ -22,9 +22,16 @@
 <h1>
     На данной старнице вы можете посмотреть список ближайших событий.
 </h1>
+{% if user.is_staff %}
+    <p>{<a href="{% url 'add_event'%}">Добавить событие</a>]</p>
+{% endif %}
 
 {% for event in events %}
-    <h3><a href="/events/{{event.id}}">{{event.name}}</a></h3>
+    <h3><a href="/events/{{event.id}}">{{event.name}}</a>
+        {% if user.is_staff %}
+            [<a href="{% url 'remove_event'%}">Удалить событие</a>]
+        {% endif %}
+    </h3>
     <h4>{{event.time}}</h4>
     <img src="{{event.picture}}">
     <p>{{event.text}}</p>

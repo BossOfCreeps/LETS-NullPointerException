@@ -1,18 +1,23 @@
 # request.user.username
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
-from .models import Event, Comment, UserInfo, Invite
+from .models import Event, Comment, UserInfo, Invite, ChatID, Chat
 from django.urls import reverse
 from django.contrib.auth.models import User
+import os
+from django.conf import settings
+from django.core.files.storage import default_storage
 
 delta_ungi = 0.2
+UPLOAD_FOLDER = "D://GitHub//LETS-NullPointerException//static//img//events//"
+ip = "127.0.0.1"
 
 def index(request):
     return render(request, 'index.html', {})
 
 
 def events(request):
-    all_events = Event.objects.order_by("id")
+    all_events = Event.objects.order_by("time")
     return render(request, 'events.html', {"events": all_events})
 
 
@@ -21,6 +26,12 @@ def event(request, event_id):
         e = Event.objects.get(id=event_id)
     except:
         raise Http404()
+
+    try:
+        comment_id = request.GET['id']
+        Comment.objects.get(id=comment_id).delete()
+    except:
+        pass
 
     user_invites = list()
     for u in Invite.objects.filter(name1=request.user.username, event=event_id):
@@ -70,9 +81,33 @@ def profile(request):
         if test + delta_ungi > tu.test > test - delta_ungi and tu.name != user:
             users_list.append(tu.name)
 
-    print(users_list)
+    chat = list()
+    chat_id = -1
+
+
+    if user != request.user.username:
+
+        try:
+            chat_id = ChatID.objects.get(name1=request.user.username, name2=request.GET['user']).chat_id
+        except:
+            chat_id = ChatID.objects.order_by('-id')[0].chat_id+1
+            ChatID(name1=request.user.username, name2=request.GET['user'], chat_id=chat_id).save()
+            ChatID(name2=request.user.username, name1=request.GET['user'], chat_id=chat_id).save()
+
+        try:
+            text = request.POST["message"]
+            Chat(chat_id=chat_id, name=request.user.username, text=text).save()
+        except:
+            pass
+
+        try:
+            chat = Chat.objects.filter(chat_id=chat_id)
+        except:
+            pass
+
+
     return render(request, 'profile.html', {"u": user, "test": test, "invites": invites, "my_invites": my_invites,
-                                            "test_users": users_list, "events": all_events})
+                                            "test_users": users_list, "events": all_events, "chat": chat})
 
 
 def reg(request):
@@ -100,10 +135,10 @@ def test(request):
     for i in range(1, 21):
         if (i in extra_list) and int(request.POST['id_' + str(i)]):
             result += 5
-            print(i,int(request.POST['id_' + str(i)]),1)
+            print(i, int(request.POST['id_' + str(i)]), 1)
         if not (i in extra_list) and not int(request.POST['id_' + str(i)]):
             result += 5
-            print(i,int(request.POST['id_' + str(i)]),2)
+            print(i, int(request.POST['id_' + str(i)]), 2)
 
     result = result / 100
     UserInfo(name=request.user.username, test=result).save()
@@ -125,3 +160,30 @@ def call(request):
     event_id = Event.objects.get(name=event_name).id
     Invite(name1=name1, name2=name2, event=event_id, e_name=event_name, submit=False).save()
     return HttpResponseRedirect(reverse('profile'))
+
+
+def add_event(request):
+    try:
+        name = request.POST['name']
+        time = request.POST['time']
+        text = request.POST['text']
+        pic = request.FILES['photo']
+
+        with open(UPLOAD_FOLDER+pic.name, 'wb+') as destination:
+            for chunk in pic.chunks():
+                destination.write(chunk)
+
+        Event(name=name, time=time, text=text, picture="http://"+ip+":8000/static/img/events/"+pic.name).save()
+        return HttpResponseRedirect(reverse('events'))
+    except:
+        return render(request, 'add_event.html', {})
+
+
+def remove_event(request):
+    id = request.GET['event']
+    Event.objects.get(id=id).delete()
+    return HttpResponseRedirect(reverse('events'))
+
+
+def remove_comment(request, event_id):
+    pass

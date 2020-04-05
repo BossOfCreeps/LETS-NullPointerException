@@ -11,7 +11,7 @@
     <li><a href="{% url 'index' %}">Главная страница</a></li>
     <li><a href="{% url 'events' %}">События</a></li>
     {% if user.is_authenticated %}
-        <li><a href="{% url 'profile'%}?user={{user.get_username}}">Профиль</a></li>
+        <li><a href="{% url 'profile'%}">Профиль</a></li>
         <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>
     {% else %}
         <li><a href="{% url 'login'%}">Войти</a></li>
@@ -55,7 +55,7 @@
                 </form>
             {% endif %}
         {% else %}
-            <hr>
+
             <h2>Пройдите тест, чтобы выбрать напарника на мероприятие (Опросник Юнга)</h2>
             <form action="{% url 'test' %}" method="post">
                 {% csrf_token %}
@@ -85,7 +85,14 @@
             </form>
         {% endif %}
     {% else %}
-        <p></p>
+        {% for c in chat %}
+            <p><b>{{c.name}}: </b>{{c.text}}</p>
+        {% endfor %}
+        <form action="{% url 'profile' %}?user={{u}}" method="post">
+            {% csrf_token %}
+            <input type="text" name="message">
+            <input type="submit">
+        </form>
     {% endif %}
 {% else %}
     <p>Да не вторизованы. <a href="{% url 'login'%}?next={{request.path}}">Войти на сайт</a>.</p>

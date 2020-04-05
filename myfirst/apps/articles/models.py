@@ -27,3 +27,15 @@ class Invite(models.Model):
     name1 = models.CharField(max_length=500)
     name2 = models.CharField(max_length=500)
     submit = models.IntegerField()
+
+
+class ChatID(models.Model):
+    chat_id = models.IntegerField()
+    name1 = models.CharField(max_length=500)
+    name2 = models.CharField(max_length=500)
+
+
+class Chat(models.Model):
+    chat_id = models.IntegerField(default=0)
+    name = models.CharField(max_length=500)
+    text = models.TextField()
