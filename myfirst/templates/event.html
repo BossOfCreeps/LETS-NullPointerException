@@ -19,6 +19,7 @@
         <li><a href="{% url 'reg'%}">Регистрация</a></li>
     {% endif %}
 </ul>
+<div class="header-h1">
 
 <h1>
     {{event.name}}
@@ -26,6 +27,7 @@
         [<a href="{% url 'remove_event'%}?event={{event.id}}">Удалить событие</a>]
     {% endif %}
 </h1>
+</div>
 <h2>Пройдёт: {{event.time}}</h2>
 <img src="{{event.picture}}">
 <p>{{event.text}}</p>
@@ -34,19 +36,19 @@
 <h2>Коммантарии:</h2>
 
 {% for comment in comments %}
-    <strong><a href="{% url 'profile' %}?user={{comment.author}}">{{comment.author}}</a>   </strong>
+    <p><strong><a href="{% url 'profile' %}?user={{comment.author}}">{{comment.author}}</a></strong>
         {%  if comment.author != user.get_username and not comment.author in invites %}
             <a href="{% url 'invite' event.id  %}?user={{comment.author}}">[пригласить]</a>
         {% endif %}
-    <p>{{comment.text}}</p>
+    : {{comment.text}}
     {% if comment.author == user.get_username or user.is_staff %}
-        [<a href="{% url 'event' event.id  %}?id={{comment.id}}">удалить кммоентарий</a>]<br>
+        [<a href="{% url 'event' event.id  %}?id={{comment.id}}">удалить комментарий</a>]<br></p>
     {% endif %}
     <br><br>
 {% endfor %}
 
 {% if user.is_authenticated %}
-    <form action="{% url 'add_comment' event.id  %}" method="post">
+    <form action="{% url 'add_comment' event.id  %}" method="post" class="input_100">
         {% csrf_token %}
         <textarea name="text"  rows="10" placeholder="Текст комментария" required></textarea><br>
         <button type="submit">Оставить комментарий</button>

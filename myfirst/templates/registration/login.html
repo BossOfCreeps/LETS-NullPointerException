@@ -19,10 +19,11 @@
         <li><a href="{% url 'reg'%}">Регистрация</a></li>
     {% endif %}
 </ul>
-
-<h1>
-    Это страница авторизации. Введите свой логин (имя) и пароль (секретный ключ)
-</h1>
+<div class="header-h1">
+  <h1>
+      Это страница авторизации. 
+  </h1>
+</div>
 
 {% if form.errors %}
   <p>Введены неверный логин или пароль</p>
@@ -43,8 +44,9 @@
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<button type="submit">Войти</button>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
+
 </body>
 </html>

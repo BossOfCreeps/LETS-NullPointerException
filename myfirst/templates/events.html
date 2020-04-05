@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>События</title>
     <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" type="image/x-icon">
 
 </head>
 <body>
@@ -19,11 +20,13 @@
         <li><a href="{% url 'reg'%}">Регистрация</a></li>
     {% endif %}
 </ul>
-<h1>
-    На данной старнице вы можете посмотреть список ближайших событий.
-</h1>
+<div class="header-h1">
+    <h1>
+        На данной старнице вы можете посмотреть список ближайших событий
+    </h1>
+</div>
 {% if user.is_staff %}
-    <p>{<a href="{% url 'add_event'%}">Добавить событие</a>]</p>
+    <p>[<a href="{% url 'add_event'%}">Добавить событие</a>]</p>
 {% endif %}
 
 {% for event in events %}

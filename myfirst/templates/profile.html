@@ -18,39 +18,46 @@
         <li><a href="{% url 'reg'%}">Регистрация</a></li>
     {% endif %}
 </ul>
+<div class="header-h1">
 
-<h1>{{u}}</h1>
+<h1>{{u}}</h1></div>
 {% if user.is_authenticated  %}
     {% if  u == user.get_username or u == " "%}
         <hr>
         <h2>Ваши мероприятия:</h2>
-        {% for i in my_invites %}
-                <b>{{i.name2}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
-        {% endfor %}
 
+        {% for i in my_invites %}
+                <p><b>{{i.name2}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br></p>
+        {% endfor %}
+        
         {% for i in invites %}
             {% if i.submit == 0 %}
+                <p>
                 {{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a>
                 <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=2">[+]</a>
                 <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=1">[-]</a><br>
+                </p>
             {% elif i.submit == 2 %}
+                <p>
                 <b>{{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
+                </p>
             {% endif %}
         {% endfor %}
         <hr>
         {% if test != -1 %}
             <h2>Результаты теста Юнга - {{test}}</h2>
             {% if test_users %}
-                Схожие пользователи:<br>
-                <form action="{% url 'call' %}" method="post">
+                <p>Схожие пользователи:<br></p>
+                <form action="{% url 'call' %}" method="post" >
                     {% csrf_token %}
                     {% for tu in test_users %}
-                        <input type="radio" name="user_l" value="{{tu}}" required>{{tu}}<br>
+                        <input type="radio" name="user_l" value="{{tu}}" required  /> <span>{{tu}}</span><br>
                     {% endfor %}
                     <br>
                     {% for e in events %}
-                        <input type="radio" name="event_l" value="{{e.name}}" required>{{e.name}}<br>
+                        <input type="radio" name="user_l" value="{{tu}}" required  /><span>{{e.name}}</span><br>
                     {% endfor %}
+                    <br>
                     <button type="submit">Отправить запрос</button>
                 </form>
             {% endif %}
@@ -88,7 +95,7 @@
         {% for c in chat %}
             <p><b>{{c.name}}: </b>{{c.text}}</p>
         {% endfor %}
-        <form action="{% url 'profile' %}?user={{u}}" method="post">
+        <form action="{% url 'profile' %}?user={{u}}" method="post" class="input_100">
             {% csrf_token %}
             <input type="text" name="message">
             <input type="submit">

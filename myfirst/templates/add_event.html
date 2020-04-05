@@ -20,10 +20,14 @@
     {% endif %}
 </ul>
 {% if user.is_staff %}
+<div class="header-h1">
+
     <h1>
         Добавьте новое событие
     </h1>
-    <form action="{% url 'add_event' %}" enctype="multipart/form-data" method="post">
+</div>
+
+    <form action="{% url 'add_event' %}" enctype="multipart/form-data" method="post" class="input_100">
         {% csrf_token %}
         <table>
             <tr>
@@ -45,6 +49,7 @@
         </table>
         <input type="submit">
     </form>
+
 {% endif %}
 </body>
 </html>

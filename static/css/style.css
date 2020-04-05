@@ -1,9 +1,92 @@
-h3{
+
+
+ a {
+  text-decoration: none
+}
+
+ .header-h1 h1 {
+    position: relative;
+    padding-bottom: .5rem;
+    font-size: 28pt;
+    text-transform: uppercase;
     text-align: center;
+    color:  #feb386;
+  }
+  .header-h1 h1::before {
+    content: "";
+    position: absolute;
+    border-bottom: 2px solid  #feb386;
+    bottom: .25rem;
+    left: 50%;
+    width: 30%;
+    transform: translateX(-50%);
+  }
+  .header-h1 h1::after {
+    content: "";
+    position: absolute;
+    border-bottom: 2px solid #feb386;
+    bottom: 0;
+    left: 50%;
+    width: 15%;
+    transform: translateX(-50%);
+  }
+  .header-h1-left h1 {
+    text-align: left;
+  }
+  .header-h1-left h1::before,
+  .header-h1-left h1::after {
+    left: 0;
+    transform: translateX(0);
+  }
+  .header-h1-right h1 {
+    text-align: right;
+  }
+  .header-h1-right h1::before,
+  .header-h1-right h1::after {
+    left: unset;
+    right: 0;
+    transform: translateX(0);
+  }
+
+h1 a{
+  color: #feb386;
+}
+
+
+h2 {  
+  font-style: italic;
+  text-align: center;
+  font-size: 28px;
+  color: #606060;
+}
+
+h3 {
+  text-align: center;
+  font-size: 28px;
+  color: #FD6D17;
+}
+
+h3 a{
+  color: #FD6D17;
 }
 
 h4{
+  font-style: italic;
+  font-size: 22px;
  text-align: center;
+ color: #606060;
+}
+
+p{
+  text-align: justify;
+  font-size: 18pt;
+  text-indent: 50px; /* Отступ первой строки в пикселах */
+padding: 0px 10% 0px 10% ;
+}
+
+
+span{
+  font-size: 18pt;
 }
 
 img{
@@ -12,8 +95,87 @@ img{
     margin: 0 auto;
 }
 
-textarea {
-    width: 90%;
-    height: 200px;
-    resize: none;
+
+form{
+  padding-left: 10%;
+  padding-right: 10%;
+  font-size: 18px;
+}
+
+td{
+  padding: 5px 5px 5px 5px;
+}
+
+label{
+  color:red;
+}
+
+textarea{
+    width: 100%; /* Ширина поля в процентах */
+    height: 200px; /* Высота поля в пикселах */
+    resize: none; /* Запрещаем изменять размер */
+    font-size:18px;
+}
+
+.input_100{
+  width: 100%; /* Ширина поля в процентах */
+  font-size: 18px;
+}
+
+button{
+  font-size: 18px;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed');
+ul {
+  list-style: none;
+  margin: 40px 0 5px;
+  padding: 25px 0 5px;
+  text-align: center;
+  background: white;
+}
+ul li {display: inline-block;}
+ul li:after {
+  content: "|";
+  color: #606060;
+  display: inline-block;
+  vertical-align:top;
+}
+ul li:last-child:after {content: none;}
+ul a {
+  text-decoration: none;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 20px;
+  margin: 0 34px 0 30px;
+  font-size: 17px;
+  text-transform: uppercase;
+  display: inline-block;
+  transition: color .2s;
+}
+ul a, ul a:visited {color: #9d999d;}
+ul a.current, ul a:hover{color: #feb386;}
+ul a:before,
+ul a:after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  top: auto;
+  right: 50%;
+  bottom: -5px;
+  left: 50%;
+  background: #feb386;
+  transition: .8s;
+}
+ul a:hover:before, ul .current:before {left: 0;}
+ul a:hover:after, ul .current:after {right: 0;}   
+@media (max-width: 550px) {
+ul {padding-top: 0;}
+ul li {display: block;}
+ul li:after {content: none;}
+ul a {
+  padding: 25px 0 20px; 
+  margin: 0 30px;
+}
 }
