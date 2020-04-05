@@ -9,8 +9,8 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 
 delta_ungi = 0.2
-UPLOAD_FOLDER = "D://GitHub//LETS-NullPointerException//static//img//events//"
-ip = "127.0.0.1"
+UPLOAD_FOLDER = "/home/ubuntu/LETS-NullPointerException/static/img/events/"
+ip = "89.208.220.42"
 
 def index(request):
     return render(request, 'index.html', {})
@@ -163,13 +163,16 @@ def call(request):
 
 
 def add_event(request):
+    global UPLOAD_FOLDER
+    global ip
     try:
         name = request.POST['name']
         time = request.POST['time']
         text = request.POST['text']
         pic = request.FILES['photo']
-
+        print(UPLOAD_FOLDER)
         with open(UPLOAD_FOLDER+pic.name, 'wb+') as destination:
+            print(2)
             for chunk in pic.chunks():
                 destination.write(chunk)
 

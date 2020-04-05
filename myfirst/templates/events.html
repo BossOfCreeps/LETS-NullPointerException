@@ -29,7 +29,7 @@
 {% for event in events %}
     <h3><a href="/events/{{event.id}}">{{event.name}}</a>
         {% if user.is_staff %}
-            [<a href="{% url 'remove_event'%}">Удалить событие</a>]
+            [<a href="{% url 'remove_event'%}?event={{event.id}}">Удалить событие</a>]
         {% endif %}
     </h3>
     <h4>{{event.time}}</h4>
