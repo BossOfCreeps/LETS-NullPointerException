@@ -9,10 +9,10 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 
 delta_ungi = 0.2
-#UPLOAD_FOLDER = "/home/ubuntu/LETS-NullPointerException/static/img/events/"
-#ip = "89.208.220.42"
-UPLOAD_FOLDER = "D://GitHub//LETS-NullPointerException//static//img//events//"
-ip = "127.0.0.1"
+UPLOAD_FOLDER = "/home/ubuntu/LETS-NullPointerException/static/img/events/"
+ip = "89.208.220.42"
+#UPLOAD_FOLDER = "D://GitHub//LETS-NullPointerException//static//img//events//"
+#ip = "127.0.0.1"
 
 def index(request):
     return render(request, 'index.html', {})
