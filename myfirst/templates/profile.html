@@ -27,19 +27,19 @@
         <h2>Ваши мероприятия:</h2>
 
         {% for i in my_invites %}
-                <p><b>{{i.name2}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br></p>
+                <p><b>{{i.name2}} <a href="{% url 'events' %}{{i.event}}">{{i.e_name}}</a></b> [принято]<br></p>
         {% endfor %}
         
         {% for i in invites %}
             {% if i.submit == 0 %}
                 <p>
-                {{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a>
+                {{i.name1}} <a href="{% url 'events' %}{{i.event}}">{{i.e_name}}</a>
                 <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=2">[+]</a>
                 <a href="{% url 'submit_invite' %}?user={{i.name1}}&event={{i.event}}&r=1">[-]</a><br>
                 </p>
             {% elif i.submit == 2 %}
                 <p>
-                <b>{{i.name1}} <a href="{% url 'events' %}/{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
+                <b>{{i.name1}} <a href="{% url 'events' %}{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
                 </p>
             {% endif %}
         {% endfor %}
@@ -55,7 +55,7 @@
                     {% endfor %}
                     <br>
                     {% for e in events %}
-                        <input type="radio" name="user_l" value="{{tu}}" required  /><span>{{e.name}}</span><br>
+                        <input type="radio" name="event_l" value="{{e.name}}" required  /><span>{{e.name}}</span><br>
                     {% endfor %}
                     <br>
                     <button type="submit">Отправить запрос</button>
