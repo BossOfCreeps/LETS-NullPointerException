@@ -4,17 +4,22 @@ from django.http import Http404, HttpResponseRedirect
 from .models import Event, Comment, UserInfo, Invite, ChatID, Chat
 from django.urls import reverse
 from django.contrib.auth.models import User
-import os
+import os, sys
 from django.conf import settings
 from django.core.files.storage import default_storage
 
 delta_ungi = 0.2
-UPLOAD_FOLDER = "/home/ubuntu/LETS-NullPointerException/static/img/events/"
-ip = "89.208.220.42"
-#UPLOAD_FOLDER = "D://GitHub//LETS-NullPointerException//static//img//events//"
-#ip = "127.0.0.1"
+
+if sys.platform == "win32":
+    UPLOAD_FOLDER = "D://GitHub//LETS-NullPointerException//static//img//events//"
+    ip = "127.0.0.1"
+else:
+    UPLOAD_FOLDER = "/home/ubuntu/LETS-NullPointerException/static/img/events/"
+    ip = "89.208.220.42"
+
 
 def index(request):
+    print(UPLOAD_FOLDER)
     return render(request, 'index.html', {})
 
 
@@ -86,13 +91,12 @@ def profile(request):
     chat = list()
     chat_id = -1
 
-
     if user != request.user.username:
 
         try:
             chat_id = ChatID.objects.get(name1=request.user.username, name2=request.GET['user']).chat_id
         except:
-            chat_id = ChatID.objects.order_by('-id')[0].chat_id+1
+            chat_id = ChatID.objects.order_by('-id')[0].chat_id + 1
             ChatID(name1=request.user.username, name2=request.GET['user'], chat_id=chat_id).save()
             ChatID(name2=request.user.username, name1=request.GET['user'], chat_id=chat_id).save()
 
@@ -106,7 +110,6 @@ def profile(request):
             chat = Chat.objects.filter(chat_id=chat_id)
         except:
             pass
-
 
     return render(request, 'profile.html', {"u": user, "test": test, "invites": invites, "my_invites": my_invites,
                                             "test_users": users_list, "events": all_events, "chat": chat})
@@ -173,12 +176,12 @@ def add_event(request):
         text = request.POST['text']
         pic = request.FILES['photo']
         print(UPLOAD_FOLDER)
-        with open(UPLOAD_FOLDER+pic.name, 'wb+') as destination:
+        with open(UPLOAD_FOLDER + pic.name, 'wb+') as destination:
             print(2)
             for chunk in pic.chunks():
                 destination.write(chunk)
 
-        Event(name=name, time=time, text=text, picture="http://"+ip+":8000/static/img/events/"+pic.name).save()
+        Event(name=name, time=time, text=text, picture="http://" + ip + ":8000/static/img/events/" + pic.name).save()
         return HttpResponseRedirect(reverse('events'))
     except:
         return render(request, 'add_event.html', {})
