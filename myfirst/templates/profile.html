@@ -27,7 +27,9 @@
         <h2>Ваши мероприятия:</h2>
 
         {% for i in my_invites %}
-                <p><b><a href="{% url 'profile' %}?user={{i.name2}}">{{i.name2}}</a> <a href="{% url 'events' %}{{i.event}}">{{i.e_name}}</a></b> [принято]<br></p>
+                <p>
+                    <b><a href="{% url 'profile' %}?user={{i.name2}}">{{i.name2}}</a> <a href="{% url 'events' %}{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
+                </p>
         {% endfor %}
         
         {% for i in invites %}
@@ -39,7 +41,7 @@
                 </p>
             {% elif i.submit == 2 %}
                 <p>
-                <b><b><a href="{% url 'profile' %}?user={{i.name1}}">{{i.name1}}</a> <a href="{% url 'events' %}{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
+                <b><a href="{% url 'profile' %}?user={{i.name1}}">{{i.name1}}</a> <a href="{% url 'events' %}{{i.event}}">{{i.e_name}}</a></b> [принято]<br>
                 </p>
             {% endif %}
         {% endfor %}
