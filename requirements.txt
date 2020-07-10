@@ -1,1 +1,5 @@
-Django
+Flask==0.12.2
+pyopenssl
+wheel
+num2words
+git+https://github.com/kmike/pymorphy2

@@ -1,0 +1,3 @@
+sudo dpkg-reconfigure locales
+
+ru-RU UTF-8 UTF-8
